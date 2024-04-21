@@ -78,6 +78,15 @@ const Register = () => {
                 </Select>
                 {touched.gender && errors.gender ? <FormHelperText error>{errors.gender}</FormHelperText> : null}
               </FormControl>
+              <FormControl fullWidth>
+                <InputLabel>Gender</InputLabel>
+                <Select label="Gender" {...getFieldProps("gender")}>
+                  <MenuItem value="male">Male</MenuItem>
+                  <MenuItem value="female">Female</MenuItem>
+                  <MenuItem value="preferNotToSay">Prefer Not To Say</MenuItem>
+                </Select>
+                {touched.gender && errors.gender ? <FormHelperText error>{errors.gender}</FormHelperText> : null}
+              </FormControl>
 
               <Button variant="contained" type="submit">
                 Register
