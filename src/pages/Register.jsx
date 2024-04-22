@@ -11,8 +11,8 @@ import {
 } from "@mui/material";
 import { Formik } from "formik";
 import React from "react";
-import { registerValidationSchema } from "../validations/register.validation";
 import { Link } from "react-router-dom";
+import { registerValidationSchema } from "../validations/register.validation";
 
 const Register = () => {
   return (
@@ -69,15 +69,6 @@ const Register = () => {
                 {touched.role && errors.role ? <FormHelperText error>{errors.role}</FormHelperText> : null}
               </FormControl>
 
-              <FormControl fullWidth>
-                <InputLabel>Gender</InputLabel>
-                <Select label="Gender" {...getFieldProps("gender")}>
-                  <MenuItem value="male">Male</MenuItem>
-                  <MenuItem value="female">Female</MenuItem>
-                  <MenuItem value="preferNotToSay">Prefer Not To Say</MenuItem>
-                </Select>
-                {touched.gender && errors.gender ? <FormHelperText error>{errors.gender}</FormHelperText> : null}
-              </FormControl>
               <FormControl fullWidth>
                 <InputLabel>Gender</InputLabel>
                 <Select label="Gender" {...getFieldProps("gender")}>
