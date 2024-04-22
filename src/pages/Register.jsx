@@ -1,20 +1,32 @@
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
   Box,
   Button,
   FormControl,
   FormHelperText,
+  IconButton,
+  InputAdornment,
   InputLabel,
   MenuItem,
+  OutlinedInput,
   Select,
   TextField,
   Typography,
 } from "@mui/material";
 import { Formik } from "formik";
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { registerValidationSchema } from "../validations/register.validation";
 
 const Register = () => {
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((prevValue) => !prevValue);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
   return (
     <Box>
       <Formik
@@ -55,8 +67,30 @@ const Register = () => {
                 {touched.email && errors.email ? <FormHelperText error>{errors.email}</FormHelperText> : null}
               </FormControl>
 
-              <FormControl>
+              {/* <FormControl>
                 <TextField label="Password" {...getFieldProps("password")} required />
+                {touched.password && errors.password ? <FormHelperText error>{errors.password}</FormHelperText> : null}
+              </FormControl> */}
+
+              <FormControl variant="outlined">
+                <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                <OutlinedInput
+                  {...getFieldProps("password")}
+                  type={showPassword ? "text" : "password"}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  label="Password"
+                />
                 {touched.password && errors.password ? <FormHelperText error>{errors.password}</FormHelperText> : null}
               </FormControl>
 
