@@ -17,9 +17,6 @@ const guestRoutes = [
       },
     ],
   },
-  // { path: "login", element: <Login /> },
-  // { path: "register", element: <Register /> },
-  // { path: "header", element: <Header /> },
 ];
 
 export default guestRoutes;

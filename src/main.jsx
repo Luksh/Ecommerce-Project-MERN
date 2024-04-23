@@ -5,12 +5,13 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import "./App.css";
 import "./index.css";
 import guestRoutes from "./routes/guestRoutes.jsx";
+import mainRoutes from "./routes/mainRoutes.jsx";
 
 // Create client
 const queryClient = new QueryClient();
 
 // Create reouter
-const router = createBrowserRouter([...guestRoutes]);
+const router = createBrowserRouter([...guestRoutes, ...mainRoutes]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
