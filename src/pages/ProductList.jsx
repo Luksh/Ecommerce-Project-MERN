@@ -1,21 +1,11 @@
 import React from "react";
-import ProductCard from "../components/ProductCard";
-import { Box } from "@mui/material";
+import BuyerProductList from "../components/BuyerProductList";
+import SellerProductList from "../components/SellerProductList";
 
 const ProductList = () => {
-  return (
-    <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "center", alignContent: "center", gap: "20px" }}>
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
-    </Box>
-  );
+  const userRole = localStorage.getItem("role");
+
+  return <>{userRole === "seller" ? <SellerProductList /> : <BuyerProductList />}</>;
 };
 
 export default ProductList;
