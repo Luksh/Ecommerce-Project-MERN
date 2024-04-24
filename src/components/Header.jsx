@@ -59,7 +59,7 @@ const Header = (props) => {
   const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{ display: "flex", marginBottom: "50px" }}>
+    <Box sx={{ display: "flex", marginBottom: "4rem" }}>
       <CssBaseline />
       <AppBar component="nav" sx={{ background: "#006600" }}>
         <Toolbar>
@@ -77,7 +77,13 @@ const Header = (props) => {
           </Typography>
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
             {navItems.map((item) => (
-              <Button key={item.id} sx={{ color: "#fff" }} onClick={navigate(item.path)}>
+              <Button
+                key={item.id}
+                sx={{ color: "#fff" }}
+                onClick={() => {
+                  navigate(item.path);
+                }}
+              >
                 {item.name}
               </Button>
             ))}
