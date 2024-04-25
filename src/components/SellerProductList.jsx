@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import $axios from "../lib/axios/axios.instance";
-import { Box, CircularProgress } from "@mui/material";
+import { Box, Button, CircularProgress } from "@mui/material";
 import ProductCard from "./ProductCard";
 import { useNavigate } from "react-router-dom";
 
@@ -22,11 +22,22 @@ const SellerProductList = () => {
     <CircularProgress />;
   }
   return (
-    <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "center", alignContent: "center", gap: "20px" }}>
-      {productList?.map((item) => {
-        return <ProductCard key={item._id} {...item} />;
-      })}
-    </Box>
+    <>
+      <Button
+        variant="contained"
+        onClick={() => {
+          navigate("/add-product");
+        }}
+        sx={{ marginbottom: "20px" }}
+      >
+        Add Product
+      </Button>
+      <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "center", alignContent: "center", gap: "20px" }}>
+        {productList?.map((item) => {
+          return <ProductCard key={item._id} {...item} />;
+        })}
+      </Box>
+    </>
   );
 };
 

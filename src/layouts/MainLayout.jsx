@@ -6,13 +6,21 @@ import Footer from "../components/Footer";
 
 const MainLayout = () => {
   return (
-    <Box sx={{ display: "flex", flexDirection: "column" }}>
+    <>
       <Header />
-      <Box sx={{ display: "flex", justifyContent: "center", alignContent: "center" }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignContent: "center",
+          margin: "2rem 0",
+        }}
+      >
         <Outlet />
       </Box>
       <Footer />
-    </Box>
+    </>
   );
 };
 
