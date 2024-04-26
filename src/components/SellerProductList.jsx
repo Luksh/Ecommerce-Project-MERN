@@ -16,7 +16,6 @@ const SellerProductList = () => {
   });
 
   const productList = data?.data?.productList;
-  console.log(data);
 
   if (isPending) {
     <CircularProgress />;
