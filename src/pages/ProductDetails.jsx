@@ -3,9 +3,9 @@ import { Box, Button, Chip, CircularProgress, Stack, Typography } from "@mui/mat
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { useParams } from "react-router-dom";
+import DeleteProductDialogue from "../components/DeleteProductDialogue";
 import { fallbackImage } from "../constants/general.constants";
 import $axios from "../lib/axios/axios.instance";
-import DeleteProductDialogue from "../components/DeleteProductDialogue";
 
 // Box => div
 // Stack => div which has display flex and direction column
@@ -38,7 +38,7 @@ const ProductDetails = () => {
       }}
     >
       <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-        <img src={productDetails?.image || fallbackImage} alt="" />
+        <img style={{ width: "450px" }} src={productDetails?.image || fallbackImage} alt="" />
       </Box>
       <Box
         sx={{

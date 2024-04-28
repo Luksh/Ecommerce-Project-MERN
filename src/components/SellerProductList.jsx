@@ -1,9 +1,10 @@
+import { Box, Button, CircularProgress } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
-import $axios from "../lib/axios/axios.instance";
-import { Box, Button, CircularProgress } from "@mui/material";
-import ProductCard from "./ProductCard";
 import { useNavigate } from "react-router-dom";
+import $axios from "../lib/axios/axios.instance";
+import ProductCard from "./ProductCard";
+import SellProductPrompt from "./SellProductPrompt";
 
 const SellerProductList = () => {
   const navigate = useNavigate();
@@ -31,6 +32,9 @@ const SellerProductList = () => {
       >
         Add Product
       </Button>
+
+      {productList?.length === 0 && <SellProductPrompt />}
+
       <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "center", alignContent: "center", gap: "20px" }}>
         {productList?.map((item) => {
           return <ProductCard key={item._id} {...item} />;

@@ -89,7 +89,12 @@ const AddProduct = () => {
                 </FormControl>
 
                 <FormControl>
-                  <TextField label="Quantity" {...formik.getFieldProps("availableQuantity")} type="number" required />
+                  <TextField
+                    label="Available Quantity"
+                    {...formik.getFieldProps("availableQuantity")}
+                    type="number"
+                    required
+                  />
                   {formik.touched.availableQuantity && formik.errors.availableQuantity ? (
                     <FormHelperText error>{formik.errors.availableQuantity}</FormHelperText>
                   ) : null}

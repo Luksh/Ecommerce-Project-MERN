@@ -15,9 +15,9 @@ const ProductCard = (props) => {
   return (
     <Card sx={{ width: "400px", boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px" }}>
       <CardMedia
-        sx={{ height: 300, width: "90%", cursor: "pointer" }}
+        sx={{ height: "300px", cursor: "pointer" }}
         image={props?.image || fallbackImage}
-        title="Samsung"
+        title={props.name}
         onClick={() => {
           navigate(`/product-details/${props._id}`);
         }}

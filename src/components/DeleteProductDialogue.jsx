@@ -1,4 +1,5 @@
 import DeleteIcon from "@mui/icons-material/Delete";
+import { CircularProgress } from "@mui/material";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -9,11 +10,11 @@ import { useMutation } from "@tanstack/react-query";
 import * as React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import $axios from "../lib/axios/axios.instance";
-import { CircularProgress } from "@mui/material";
 
 const DeleteProductDialogue = () => {
   const params = useParams();
   const productId = params?.id;
+  console.log(params);
 
   const navigate = useNavigate();
 
@@ -28,8 +29,8 @@ const DeleteProductDialogue = () => {
   };
 
   const { isPending, mutate } = useMutation({
-    queryKey: ["delete-product"],
-    queryFn: async () => {
+    mutationKey: ["delete-product"],
+    mutationFn: async () => {
       return await $axios.delete(`/product/delete/${productId}`);
     },
     onSuccess: () => {
