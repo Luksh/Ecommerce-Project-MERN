@@ -22,7 +22,9 @@ const SellerProductList = () => {
     <CircularProgress />;
   }
   return (
-    <>
+    <Box
+      sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", gap: "1rem" }}
+    >
       <Button
         variant="contained"
         onClick={() => {
@@ -40,7 +42,7 @@ const SellerProductList = () => {
           return <ProductCard key={item._id} {...item} />;
         })}
       </Box>
-    </>
+    </Box>
   );
 };
 

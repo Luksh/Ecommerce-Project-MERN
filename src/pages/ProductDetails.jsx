@@ -1,7 +1,9 @@
+import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
-import { Box, Button, Chip, CircularProgress, Stack, Typography } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import RemoveIcon from "@mui/icons-material/Remove";
+import { Box, Button, Chip, CircularProgress, IconButton, Stack, Typography } from "@mui/material";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import DeleteProductDialogue from "../components/DeleteProductDialogue";
 import { fallbackImage } from "../constants/general.constants";
@@ -10,6 +12,8 @@ import $axios from "../lib/axios/axios.instance";
 // Box => div
 // Stack => div which has display flex and direction column
 const ProductDetails = () => {
+  const [orderedQuantity, setOrderedQuantity] = useState(1);
+
   const navigate = useNavigate();
 
   const params = useParams();
@@ -26,9 +30,17 @@ const ProductDetails = () => {
     },
   });
 
+  // Add item to cart API call
+  const { isPending: addItemToCartPending, mutate } = useMutation({
+    mutationKey: ["add-item-to-cart"],
+    mutationFn: async () => {
+      return await $axios.put("/cart/item/add", { productId, orderedQuantity });
+    },
+  });
+
   const productDetails = data?.data?.productDetails;
 
-  if (isPending) {
+  if (isPending || addItemToCartPending) {
     <CircularProgress />;
   }
 
@@ -46,6 +58,7 @@ const ProductDetails = () => {
       <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
         <img style={{ width: "450px" }} src={productDetails?.image || fallbackImage} alt="" />
       </Box>
+
       <Box
         sx={{
           display: "flex",
@@ -59,9 +72,7 @@ const ProductDetails = () => {
         <Chip label={productDetails?.brand} variant="outlined" color="success" sx={{ fontSize: "1rem" }} />
         <Typography sx={{ textAlign: "justify" }}>{productDetails?.description}</Typography>
         <Typography variant="h6">Price: ${productDetails?.price}</Typography>
-
         <Chip variant="outlined" color="success" label={productDetails?.category} sx={{ fontSize: "1rem" }} />
-
         <Typography variant="h6">Available quantity: {productDetails?.availableQuantity}</Typography>
 
         <Stack direction="row" spacing={4}>
@@ -89,6 +100,33 @@ const ProductDetails = () => {
             </Button>
             <DeleteProductDialogue />
           </Stack>
+        )}
+
+        {userRole === "buyer" && (
+          <>
+            <Stack direction="row">
+              <IconButton
+                disabled={orderedQuantity === 1}
+                onClick={() => {
+                  setOrderedQuantity((prev) => prev - 1);
+                }}
+              >
+                <RemoveIcon />
+              </IconButton>
+              <Typography variant="h4">{orderedQuantity}</Typography>
+              <IconButton
+                disabled={orderedQuantity === productDetails?.availableQuantity}
+                onClick={() => {
+                  setOrderedQuantity((prev) => prev + 1);
+                }}
+              >
+                <AddIcon />
+              </IconButton>
+            </Stack>
+            <Button variant="contained" color="success" onClick={mutate}>
+              Add to cart
+            </Button>
+          </>
         )}
       </Box>
     </Box>
