@@ -1,5 +1,7 @@
 import {
+  Box,
   Button,
+  Checkbox,
   CircularProgress,
   FormControl,
   FormControlLabel,
@@ -7,6 +9,7 @@ import {
   InputLabel,
   LinearProgress,
   MenuItem,
+  Select,
   TextField,
   Typography,
 } from "@mui/material";
@@ -24,8 +27,9 @@ const EditProduct = () => {
   const params = useParams();
   const productId = params?.id;
 
+  // Fetch product details
   const { isPending, data } = useQuery({
-    queryKey: ["edit-product"],
+    queryKey: ["get-product-details"],
     queryFn: async () => {
       return await $axios.get(`/product/details/${productId}`);
     },
@@ -33,10 +37,11 @@ const EditProduct = () => {
 
   const productDetails = data?.data?.productDetails;
 
+  // Edit product API call
   const { isPending: editProductPending, mutate } = useMutation({
-    queryKey: ["edit-product"],
-    queryFn: async (values) => {
-      return await $axios.put(`/product/edit/${productId}`, values);
+    mutationKey: ["edit-product"],
+    mutationFn: async (values) => {
+      return await $axios.put(`/product/update/${productId}`, values);
     },
     onSuccess: (res) => {
       navigate(`/product-details/${productId}`);
