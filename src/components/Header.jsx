@@ -1,4 +1,7 @@
+import { ShoppingCartOutlined } from "@mui/icons-material";
+import LogoutIcon from "@mui/icons-material/Logout";
 import MenuIcon from "@mui/icons-material/Menu";
+import { Badge, Tooltip } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -14,8 +17,6 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
-import LogoutIcon from "@mui/icons-material/Logout";
-import { Tooltip } from "@mui/material";
 
 const drawerWidth = 240;
 
@@ -89,6 +90,16 @@ const Header = (props) => {
                 {item.name}
               </Button>
             ))}
+            <IconButton
+              sx={{ color: "#fff" }}
+              onClick={() => {
+                navigate("/cart");
+              }}
+            >
+              <Badge badgeContent={2} color="success">
+                <ShoppingCartOutlined />
+              </Badge>
+            </IconButton>
           </Box>
           <Typography>{localStorage.getItem("firstName")}</Typography>
           <Tooltip title="Logout">

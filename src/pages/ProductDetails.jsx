@@ -34,7 +34,7 @@ const ProductDetails = () => {
   const { isPending: addItemToCartPending, mutate } = useMutation({
     mutationKey: ["add-item-to-cart"],
     mutationFn: async () => {
-      return await $axios.put("/cart/item/add", { productId, orderedQuantity });
+      return await $axios.post("/cart/item/add", { productId, orderedQuantity });
     },
   });
 
@@ -48,9 +48,11 @@ const ProductDetails = () => {
     <Box
       sx={{
         display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
         boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
         padding: "3rem",
-        mt: "5rem",
+        mt: "1rem",
         width: "70%",
         gap: "1rem",
       }}
@@ -65,7 +67,7 @@ const ProductDetails = () => {
           flexDirection: "column",
           justifyContent: "space-around",
           alignItems: "flex-start",
-          gap: "2rem",
+          gap: "1rem",
         }}
       >
         <Typography variant="h5">{productDetails?.name}</Typography>
@@ -75,7 +77,7 @@ const ProductDetails = () => {
         <Chip variant="outlined" color="success" label={productDetails?.category} sx={{ fontSize: "1rem" }} />
         <Typography variant="h6">Available quantity: {productDetails?.availableQuantity}</Typography>
 
-        <Stack direction="row" spacing={4}>
+        <Stack direction="row" spacing={2}>
           <Typography variant="h6">Free Shipping:</Typography>
           <Chip
             variant="outlined"
@@ -86,7 +88,7 @@ const ProductDetails = () => {
         </Stack>
 
         {userRole === "seller" && (
-          <Stack direction="row" spacing={2} sx={{ width: "100%" }}>
+          <Stack direction="row" spacing={5} sx={{ width: "100%" }}>
             <Button
               variant="contained"
               color="success"
@@ -123,7 +125,13 @@ const ProductDetails = () => {
                 <AddIcon />
               </IconButton>
             </Stack>
-            <Button variant="contained" color="success" onClick={mutate}>
+            <Button
+              variant="contained"
+              color="success"
+              onClick={() => {
+                mutate();
+              }}
+            >
               Add to cart
             </Button>
           </>

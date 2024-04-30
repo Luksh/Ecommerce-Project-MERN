@@ -30,14 +30,13 @@ const SellerProductList = () => {
         onClick={() => {
           navigate("/add-product");
         }}
-        sx={{ marginbottom: "20px" }}
       >
         Add Product
       </Button>
 
       {productList?.length === 0 && <SellProductPrompt />}
 
-      <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "center", alignContent: "center", gap: "20px" }}>
+      <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "center", alignContent: "center", gap: "1rem" }}>
         {productList?.map((item) => {
           return <ProductCard key={item._id} {...item} />;
         })}

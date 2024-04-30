@@ -35,7 +35,9 @@ const Login = () => {
   return (
     <>
       {isPending && <LinearProgress />}
-      <Box>
+      <Box
+        sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", mb: "1rem" }}
+      >
         <Formik
           initialValues={{ email: "", password: "" }}
           validationSchema={loginValidationSchema}
@@ -51,7 +53,7 @@ const Login = () => {
                   display: "flex",
                   flexDirection: "column",
                   padding: "1rem",
-                  gap: "10px",
+                  gap: "1rem",
                   width: "350px",
                   boxShadow: "rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px",
                 }}

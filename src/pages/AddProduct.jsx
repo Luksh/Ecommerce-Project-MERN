@@ -36,7 +36,9 @@ const AddProduct = () => {
   return (
     <>
       {isPending && <LinearProgress />}
-      <Box>
+      <Box
+        sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", mt: "1rem" }}
+      >
         <Formik
           initialValues={{
             image: null,

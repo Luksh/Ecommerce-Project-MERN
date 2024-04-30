@@ -56,7 +56,7 @@ const EditProduct = () => {
   }
 
   return (
-    <Box>
+    <Box sx={{ mt: "1rem" }}>
       {editProductPending && <LinearProgress color="success" />}
       <Formik
         enableReinitialize

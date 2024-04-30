@@ -40,7 +40,6 @@ const ProductCard = (props) => {
       <CardActions>
         <Button
           variant="contained"
-          color="secondary"
           fullWidth
           onClick={() => {
             navigate(`/product-details/${props._id}`);
