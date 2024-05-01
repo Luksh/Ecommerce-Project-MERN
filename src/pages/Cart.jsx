@@ -5,7 +5,7 @@ import OrderSummary from "../components/OrderSummary";
 
 const Cart = () => {
   return (
-    <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "1rem" }}>
+    <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "1rem", width: "90%" }}>
       <CartItemTable />
       <OrderSummary />
     </Box>
