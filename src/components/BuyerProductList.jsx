@@ -20,7 +20,7 @@ const BuyerProductList = () => {
 
   return (
     <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "center", alignContent: "center", gap: "20px" }}>
-      {productList.map((item) => {
+      {productList?.map((item) => {
         return <ProductCard key={item._id} {...item} />;
       })}
     </Box>

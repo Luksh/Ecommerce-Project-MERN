@@ -2,7 +2,7 @@ import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { Box, Button, Chip, CircularProgress, IconButton, Stack, Typography } from "@mui/material";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import DeleteProductDialogue from "../components/DeleteProductDialogue";
@@ -18,6 +18,8 @@ const ProductDetails = () => {
 
   const params = useParams();
   const productId = params?.id;
+
+  const queryClient = useQueryClient();
 
   // Get user role
   const userRole = localStorage.getItem("role");
@@ -36,12 +38,15 @@ const ProductDetails = () => {
     mutationFn: async () => {
       return await $axios.post("/cart/item/add", { productId, orderedQuantity });
     },
+    onSuccess: () => {
+      queryClient.invalidateQueries("get-cart-item-count");
+    },
   });
 
   const productDetails = data?.data?.productDetails;
 
   if (isPending || addItemToCartPending) {
-    <CircularProgress />;
+    return <CircularProgress />;
   }
 
   return (

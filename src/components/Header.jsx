@@ -15,8 +15,10 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
+import { useQuery } from "@tanstack/react-query";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
+import $axios from "../lib/axios/axios.instance";
 
 const drawerWidth = 240;
 
@@ -32,9 +34,22 @@ const Header = (props) => {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
+  const userRole = localStorage.getItem("role");
+
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
+
+  // Get cart items count
+  const { isPending, data } = useQuery({
+    queryKey: ["get-cart-item-count"],
+    queryFn: async () => {
+      return await $axios.get("/cart/item/count");
+    },
+    enabled: userRole === "buyer",
+  });
+
+  const cartItemCount = data?.data?.cartItemCount || 0;
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
@@ -90,16 +105,18 @@ const Header = (props) => {
                 {item.name}
               </Button>
             ))}
-            <IconButton
-              sx={{ color: "#fff" }}
-              onClick={() => {
-                navigate("/cart");
-              }}
-            >
-              <Badge badgeContent={2} color="success">
-                <ShoppingCartOutlined />
-              </Badge>
-            </IconButton>
+            {userRole === "buyer" && (
+              <IconButton
+                sx={{ color: "#fff" }}
+                onClick={() => {
+                  navigate("/cart");
+                }}
+              >
+                <Badge badgeContent={cartItemCount} color="success">
+                  <ShoppingCartOutlined />
+                </Badge>
+              </IconButton>
+            )}
           </Box>
           <Typography>{localStorage.getItem("firstName")}</Typography>
           <Tooltip title="Logout">

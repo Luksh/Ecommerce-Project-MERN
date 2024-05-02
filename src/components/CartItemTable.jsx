@@ -1,4 +1,5 @@
-import { Button, CircularProgress, IconButton, LinearProgress, Typography } from "@mui/material";
+import { Clear } from "@mui/icons-material";
+import { Button, Chip, IconButton, LinearProgress, Stack, Typography } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -6,28 +7,21 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import * as React from "react";
 import $axios from "../lib/axios/axios.instance";
-import { Clear } from "@mui/icons-material";
 
-const CartItemTable = () => {
+const CartItemTable = ({ cartData }) => {
   const queryClient = useQueryClient();
-
-  const { isPending, data } = useQuery({
-    queryKey: ["get-cart-item-list"],
-    queryFn: async () => {
-      return await $axios.get("/cart/item/list");
-    },
-  }); // Fetch cart items list
-
-  const cartData = data?.data?.cartData;
 
   // Clear cart API call
   const { isPending: clearCartPending, mutate: clearCart } = useMutation({
     mutationKey: ["clear-cart"],
     mutationFn: async () => {
       return await $axios.delete("/cart/remove");
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries("get-cart-item-list");
     },
   });
 
@@ -38,17 +32,13 @@ const CartItemTable = () => {
       return await $axios.delete(`/cart/item/remove/${productId}`);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries("get-cart-item-list");
+      queryClient.invalidateQueries("get-cart-item-list"); // Invalidate the cache and refetch the data
     },
   });
 
-  if (isPending) {
-    return <CircularProgress />;
-  }
-
   return (
     <TableContainer component={Paper} sx={{ width: 900 }}>
-      {removeItemFromCartPending && <LinearProgress />}
+      {(removeItemFromCartPending || clearCartPending) && <LinearProgress />}
       <Table aria-label="simple table">
         <TableHead>
           <TableRow>
@@ -65,7 +55,7 @@ const CartItemTable = () => {
               <Typography>Price</Typography>
             </TableCell>
             <TableCell align="center">
-              <Typography>Ordered Quantity</Typography>
+              <Typography>Quantity</Typography>
             </TableCell>
             <TableCell align="center">
               <Typography>Sub Total</Typography>
@@ -76,15 +66,20 @@ const CartItemTable = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {cartData.map((item, index) => (
+          {cartData?.map((item, index) => (
             <TableRow key={item._id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
               <TableCell component="th" scope="row">
                 {index + 1}
               </TableCell>
               <TableCell align="right">
-                <img src={item.image} alt="" style={{ width: "200px" }} />
+                <img src={item.image} alt="" style={{ width: "150px", height: "150px", objectFit: "contain" }} />
               </TableCell>
-              <TableCell align="center">{item.name}</TableCell>
+              <TableCell align="center">
+                <Stack spacing={1} alignItems="center">
+                  <Typography variant="body2">{item.name}</Typography>
+                  <Chip label={item.brand} variant="outlined" color="success" />
+                </Stack>
+              </TableCell>
               <TableCell align="center">{item.unitPrice}</TableCell>
               <TableCell align="center">{item.orderedQuantity}</TableCell>
               <TableCell align="center">200</TableCell>
