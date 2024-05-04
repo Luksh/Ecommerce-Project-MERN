@@ -1,4 +1,4 @@
-import { Clear } from "@mui/icons-material";
+import { Add, Clear, Remove } from "@mui/icons-material";
 import { Button, Chip, IconButton, LinearProgress, Stack, Typography } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -81,7 +81,17 @@ const CartItemTable = ({ cartData }) => {
                 </Stack>
               </TableCell>
               <TableCell align="center">{item.unitPrice}</TableCell>
-              <TableCell align="center">{item.orderedQuantity}</TableCell>
+              <TableCell align="center">
+                <Stack>
+                  <IconButton>
+                    <Remove />
+                  </IconButton>
+                  <Typography>{item.orderedQuantity}</Typography>
+                  <IconButton>
+                    <Add />
+                  </IconButton>
+                </Stack>
+              </TableCell>
               <TableCell align="center">200</TableCell>
               <TableCell align="center">
                 <IconButton
