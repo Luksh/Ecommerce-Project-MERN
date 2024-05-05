@@ -111,7 +111,7 @@ const ProductDetails = () => {
 
         {userRole === "buyer" && (
           <>
-            <Stack direction="row">
+            <Stack direction="row" alignItems="center">
               <IconButton
                 disabled={orderedQuantity === 1}
                 onClick={() => {
@@ -120,7 +120,7 @@ const ProductDetails = () => {
               >
                 <RemoveIcon />
               </IconButton>
-              <Typography variant="h4">{orderedQuantity}</Typography>
+              <Typography variant="h6">{orderedQuantity}</Typography>
               <IconButton
                 disabled={orderedQuantity === productDetails?.availableQuantity}
                 onClick={() => {

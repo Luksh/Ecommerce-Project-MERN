@@ -13,6 +13,7 @@ import $axios from "../lib/axios/axios.instance";
 
 const CartItemTable = ({ cartData }) => {
   const queryClient = useQueryClient();
+  console.log(cartData);
 
   // Clear cart API call
   const { isPending: clearCartPending, mutate: clearCart } = useMutation({
@@ -36,9 +37,20 @@ const CartItemTable = ({ cartData }) => {
     },
   });
 
+  // Update cart item quantity API call
+  const { isPending: updateCartItemQuantityPending, mutate: updateCartItemQuantityMutate } = useMutation({
+    mutationKey: ["update-cart-item-quantity"],
+    mutationFn: async (values) => {
+      return await $axios.put(`/cart/item/update/${values.productId}`, { action: values.action });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries("get-cart-item-list");
+    },
+  });
+
   return (
     <TableContainer component={Paper} sx={{ width: 900 }}>
-      {(removeItemFromCartPending || clearCartPending) && <LinearProgress />}
+      {(removeItemFromCartPending || clearCartPending || updateCartItemQuantityPending) && <LinearProgress />}
       <Table aria-label="simple table">
         <TableHead>
           <TableRow>
@@ -82,12 +94,22 @@ const CartItemTable = ({ cartData }) => {
               </TableCell>
               <TableCell align="center">{item.unitPrice}</TableCell>
               <TableCell align="center">
-                <Stack>
-                  <IconButton>
+                <Stack direction="row" alignItems="center">
+                  <IconButton
+                    disabled={item.orderedQuantity === 1}
+                    onClick={() => {
+                      updateCartItemQuantityMutate({ productId: item.productId, action: "dec" });
+                    }}
+                  >
                     <Remove />
                   </IconButton>
                   <Typography>{item.orderedQuantity}</Typography>
-                  <IconButton>
+                  <IconButton
+                    disabled={item.orderedQuantity === item.availableQuantity}
+                    onClick={() => {
+                      updateCartItemQuantityMutate({ productId: item.productId, action: "inc" });
+                    }}
+                  >
                     <Add />
                   </IconButton>
                 </Stack>
