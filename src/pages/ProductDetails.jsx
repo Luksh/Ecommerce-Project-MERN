@@ -8,10 +8,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import DeleteProductDialogue from "../components/DeleteProductDialogue";
 import { fallbackImage } from "../constants/general.constants";
 import $axios from "../lib/axios/axios.instance";
+import { useDispatch } from "react-redux";
+import { openErrorSnackbar, openSuccessSnackbar } from "../store/slices/snackbarSlice";
 
 // Box => div
 // Stack => div which has display flex and direction column
 const ProductDetails = () => {
+  const dispatch = useDispatch();
   const [orderedQuantity, setOrderedQuantity] = useState(1);
 
   const navigate = useNavigate();
@@ -38,8 +41,12 @@ const ProductDetails = () => {
     mutationFn: async () => {
       return await $axios.post("/cart/item/add", { productId, orderedQuantity });
     },
-    onSuccess: () => {
+    onSuccess: (res) => {
       queryClient.invalidateQueries("get-cart-item-count");
+      dispatch(openSuccessSnackbar(res?.data?.message));
+    },
+    onError: (error) => {
+      dispatch(openErrorSnackbar(error?.response?.data?.message));
     },
   });
 
