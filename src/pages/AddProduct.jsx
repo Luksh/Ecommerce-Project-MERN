@@ -9,18 +9,25 @@ import {
   LinearProgress,
   MenuItem,
   Select,
+  Stack,
   TextField,
   Typography,
 } from "@mui/material";
 import { Formik } from "formik";
-import React from "react";
+import React, { useState } from "react";
 import { productCategories } from "../constants/general.constants";
 import addProductValidationSchema from "../validations/add.product.validation";
 import { useMutation } from "@tanstack/react-query";
 import $axios from "../lib/axios/axios.instance";
 import { useNavigate } from "react-router-dom";
 
+const cloudName = "dhduc1sk3";
+const uploadPreset = "nepal_emart";
+
 const AddProduct = () => {
+  const [productImage, setProductImage] = useState(null);
+  const [localUrl, setLocalUrl] = useState("");
+
   const navigate = useNavigate();
 
   const { isPending, mutate } = useMutation({
@@ -69,6 +76,26 @@ const AddProduct = () => {
                 }}
               >
                 <Typography variant="h5">Add Product</Typography>
+                {localUrl && (
+                  <Stack>
+                    <img
+                      src={localUrl ? localUrl : "https://via.placeholder.com/150"}
+                      alt="product"
+                      style={{ width: "150px", height: "150px", objectFit: "cover" }}
+                    />
+                  </Stack>
+                )}
+                <FormControl>
+                  <input
+                    type="file"
+                    onChange={(event) => {
+                      const file = event.target.files[0];
+                      setProductImage(file);
+                      setLocalUrl(URL.createObjectURL(file));
+                    }}
+                  />
+                </FormControl>
+
                 <FormControl>
                   <TextField label="Name" {...formik.getFieldProps("name")} required />
                   {formik.touched.name && formik.errors.name ? (
